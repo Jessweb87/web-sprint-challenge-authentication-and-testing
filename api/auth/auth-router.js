@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const Users = require('./auth-model')
 const bcrypt = require('bcryptjs')
-const buildToken = require('./token-builder')
+const tokenBuilder = require('./token-builder')
 
-const { checkUsernameExists, validateUserExists, checkBodyValid } = require('./middleware')
+const { checkUsernameExists, validateUserExists, checkBodyValid } = require('./auth-middleware')
 
 router.post('/register', checkUsernameExists, checkBodyValid, (req, res, next) => {
   
@@ -69,7 +69,7 @@ router.post('/login', checkBodyValid, validateUserExists, (req, res, next) => {
       the response body should include a string exactly as follows: "invalid credentials".
   */
       if (bcrypt.compareSync(req.body.password, req.user.password)) {
-        const token = buildToken(req.user)
+        const token = tokenBuilder(req.user)
         res.json({ 
           message: `${req.user.username} is back!`,
           token,

@@ -22,12 +22,12 @@ describe('server.js', () => {
     })
   })
 
-  describe('[POST] /api/auth/register', () => {
+  describe('[POST] /register', () => {
 
     it('valid request returning status: 201', async () => {
       await db('users').truncate()
       const res = await request(server)
-      .post('/api/auth/register')
+      .post('/register')
       .send(testData)
       expect(res.status).toBe(201)
     })
